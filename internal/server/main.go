@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -17,5 +18,7 @@ func Bootstrap(v *viper.Viper) {
 	port := v.GetString("server.port")
 	address := v.GetString("server.address")
 	listener := fmt.Sprintf("%s:%s", address, port)
-	app.Listen(listener)
+	if err := app.Listen(listener); err != nil {
+		log.Fatalln(err)
+	}
 }

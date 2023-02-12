@@ -14,4 +14,3 @@ services:
       - air_wd=/www
       - PORT=${PORT}
     command: ["-c", "/www/configs/air/.air.toml"]
-

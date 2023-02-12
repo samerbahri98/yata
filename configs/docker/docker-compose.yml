@@ -1,0 +1,17 @@
+---
+version: "3.7"
+
+services:
+  air:
+    image: cosmtrek/air:v1.41.0
+    container_name: air
+    volumes:
+      - "$PWD:/www"
+      - "$PWD/configs/yata:/etc/yata"
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - air_wd=/www
+      - PORT=${PORT}
+    command: ["-c", "/www/configs/air/.air.toml"]
+

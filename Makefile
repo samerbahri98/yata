@@ -1,7 +1,7 @@
 include .env
 export
 
-default: build
+default: dev
 
 .PHONY: build
 build:
@@ -11,9 +11,13 @@ build:
 sqlc:
 	docker run --rm -v $(shell pwd):/src -w /src kjconroy/sqlc generate ;
 
-.PHONY: devd
+.PHONY: dev
 dev:
 	docker compose -f ./configs/docker/docker-compose.yml up ;
+
+.PHONY: dev-down
+dev-down:
+	docker compose -f ./configs/docker/docker-compose.yml down -v ;
 
 .PHONY: lint
 lint:

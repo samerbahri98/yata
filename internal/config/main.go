@@ -10,7 +10,12 @@ import (
 var configFile string
 
 func Load() (err error, c *viper.Viper) {
-	setDefault()
+
+	// Defaults
+	viper.SetDefault("environment", "production")
+	viper.SetDefault("config", "/etc/yata/config.toml")
+
+	// Parse Config
 	flag.StringVarP(&configFile, "config", "c", "/etc/yata/config.toml", "Config File Path")
 	flag.Parse()
 	if err := viper.BindPFlags(flag.CommandLine); err != nil {
@@ -21,7 +26,6 @@ func Load() (err error, c *viper.Viper) {
 		return err, nil
 	}
 	viper.SetConfigFile(configFile)
-
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			log.Fatalln("Config File not found")

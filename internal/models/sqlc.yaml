@@ -6,5 +6,5 @@ sql:
     queries: "queries"
     gen:
       go:
-        package: "model"
-        out: "."
+        package: "entities"
+        out: "entities"

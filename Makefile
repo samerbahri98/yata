@@ -9,7 +9,7 @@ build:
 
 .PHONY: sqlc
 sqlc:
-	docker run --rm -v $(shell pwd)/internal/model:/src -w /src kjconroy/sqlc generate ;
+	docker run --rm -v $(shell pwd)/internal/models:/src -w /src -u 1000:1000 kjconroy/sqlc generate ;
 
 .PHONY: generate-migration
 goose-generate:

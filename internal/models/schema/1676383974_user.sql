@@ -7,9 +7,7 @@ CREATE TABLE users (
   last_modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX  user_id on users (id);
-CREATE INDEX user_created_at on users (created_at);
-CREATE INDEX user_modified_at on users (last_modified_at);
+CREATE INDEX user_id on users (id);
 
 -- +goose Down
 DROP TABLE  users;

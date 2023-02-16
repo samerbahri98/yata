@@ -38,4 +38,3 @@ lint:
 .PHONY: sqlite
 sqlite:
 	sh ./scripts/sqlite.sh
-

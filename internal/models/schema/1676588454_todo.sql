@@ -1,11 +1,11 @@
 -- +goose Up
 CREATE TABLE todos (
-  id   varchar(16) UNIQUE PRIMARY KEY,
+  id varchar(16) UNIQUE PRIMARY KEY,
   title TEXT,
   description TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   last_modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  user_id VARCHAR(16),
+  user_id VARCHAR(16) NOT NULL,
   FOREIGN KEY(user_id) REFERENCES users(id)
 );
 

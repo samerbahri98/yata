@@ -7,7 +7,6 @@ package entities
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createUser = `-- name: CreateUser :one
@@ -18,8 +17,8 @@ RETURNING id, username, email, created_at, last_modified_at
 
 type CreateUserParams struct {
 	ID       string
-	Username sql.NullString
-	Email    sql.NullString
+	Username string
+	Email    string
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -118,8 +117,8 @@ RETURNING id, username, email, created_at, last_modified_at
 `
 
 type UpdateUserParams struct {
-	Username sql.NullString
-	Email    sql.NullString
+	Username string
+	Email    string
 	ID       string
 }
 

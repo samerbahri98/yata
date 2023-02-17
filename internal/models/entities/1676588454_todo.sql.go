@@ -20,7 +20,7 @@ type CreateTodoParams struct {
 	ID          string
 	Title       sql.NullString
 	Description sql.NullString
-	UserID      sql.NullString
+	UserID      string
 }
 
 func (q *Queries) CreateTodo(ctx context.Context, arg CreateTodoParams) (Todo, error) {
@@ -64,7 +64,7 @@ WHERE user_id = ?
 ORDER BY ?
 `
 
-func (q *Queries) FindByUser(ctx context.Context, userID sql.NullString) ([]Todo, error) {
+func (q *Queries) FindByUser(ctx context.Context, userID string) ([]Todo, error) {
 	rows, err := q.db.QueryContext(ctx, findByUser, userID)
 	if err != nil {
 		return nil, err

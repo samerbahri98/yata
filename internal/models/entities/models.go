@@ -14,13 +14,13 @@ type Todo struct {
 	Description    sql.NullString
 	CreatedAt      sql.NullTime
 	LastModifiedAt sql.NullTime
-	UserID         sql.NullString
+	UserID         string
 }
 
 type User struct {
 	ID             string
-	Username       sql.NullString
-	Email          sql.NullString
+	Username       string
+	Email          string
 	CreatedAt      sql.NullTime
 	LastModifiedAt sql.NullTime
 }

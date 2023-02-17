@@ -7,6 +7,24 @@ SELECT id,
 FROM users
 WHERE id = ?
 LIMIT 1;
+-- name: GetByUsername :one
+SELECT id,
+  username,
+  email,
+  created_at,
+  last_modified_at
+FROM users
+WHERE username = ?
+LIMIT 1;
+-- name: GetByEmail :one
+SELECT id,
+  username,
+  email,
+  created_at,
+  last_modified_at
+FROM users
+WHERE email = ?
+LIMIT 1;
 -- name: ListUsers :many
 SELECT id,
   username,

@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"embed"
 	"log"
 	"os"
 	"path"
@@ -15,7 +14,6 @@ import (
 )
 
 var ddl string
-var embedMigrations embed.FS
 
 func setupTestDB(ctx context.Context) entities.DBTX {
 	cwd, err := os.Getwd()

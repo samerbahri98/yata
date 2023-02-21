@@ -31,8 +31,7 @@ func createUser(v1Props *V1Props) func(c *fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
-		c.JSON(user)
-		return nil
+		return c.JSON(user)
 	}
 }
 
@@ -43,7 +42,6 @@ func getUser(v1Props *V1Props) func(c *fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
-		c.JSON(user)
-		return nil
+		return c.JSON(user)
 	}
 }

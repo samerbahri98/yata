@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/samerbahri98/yata/internal/repository"
-	"github.com/samerbahri98/yata/internal/router/api"
+	"github.com/samerbahri98/yata/internal/router/api/v1"
 	"github.com/spf13/viper"
 )
 

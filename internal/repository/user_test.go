@@ -17,6 +17,9 @@ var ddl string
 
 func setupTestDB(ctx context.Context) entities.DBTX {
 	cwd, err := os.Getwd()
+	if err != nil {
+		log.Panicln(err)
+	}
 	dbpath := path.Join(cwd, "../../db/tmp.db")
 	migpath := path.Join(cwd, "../models/schema")
 	log.Println("\033[32m")

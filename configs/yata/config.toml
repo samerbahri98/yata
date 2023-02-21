@@ -1,3 +1,7 @@
 [server]
 address="0.0.0.0"
 port=80
+
+[database]
+driver="sqlite3"
+conn="/www/db/dev.db"

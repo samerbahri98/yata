@@ -1,37 +1,26 @@
 package config
 
 import (
-	"log"
+	"context"
 
-	flag "github.com/spf13/pflag"
-	"github.com/spf13/viper"
+	"github.com/samerbahri98/yata/internal/server"
 )
 
-var configFile string
-
-func Load() (err error, c *viper.Viper) {
-
-	// Defaults
-	viper.SetDefault("environment", "production")
-	viper.SetDefault("config", "/etc/yata/config.toml")
-
-	// Parse Config
-	flag.StringVarP(&configFile, "config", "c", "/etc/yata/config.toml", "Config File Path")
-	flag.Parse()
-	if err := viper.BindPFlags(flag.CommandLine); err != nil {
+func Load(ctx context.Context) (err error, c *server.ServerProps) {
+	err, v := loadViper()
+	if err != nil {
 		return err, nil
 	}
-	configFile := viper.GetString("config")
-	if err := viper.BindEnv("environment"); err != nil {
+
+	err, r := loadDB(ctx, v)
+	if err != nil {
 		return err, nil
 	}
-	viper.SetConfigFile(configFile)
-	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			log.Fatalln("Config File not found")
-		} else {
-			return err, nil
-		}
+	serverProps := &server.ServerProps{
+		Viper:      v,
+		Repository: r,
+		Context:    ctx,
 	}
-	return nil, viper.GetViper()
+	return nil, serverProps
+
 }

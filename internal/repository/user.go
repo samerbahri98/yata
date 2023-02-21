@@ -7,19 +7,8 @@ import (
 	"github.com/samerbahri98/yata/internal/models/entities"
 )
 
-type userRepository interface {
-	GetUser(ctx context.Context, id string) (entities.User, error)
-	GetUserByUsername(ctx context.Context, id string) (entities.User, error)
-	GetUserByEmail(ctx context.Context, id string) (entities.User, error)
-	ListUsers() ([]entities.User, error)
-	CreateUser(username string, email string) (entities.User, error)
-	UpdateUser(username string, email string) (entities.User, error)
-	DeleteUser(id string) error
-}
-
 type UserRepository struct {
 	*Repository
-	// userRepository
 }
 
 func (r *UserRepository) GetUser(ctx context.Context, id string) (entities.User, error) {

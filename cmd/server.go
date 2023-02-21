@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"log"
 
 	"github.com/samerbahri98/yata/internal/config"
@@ -8,9 +9,10 @@ import (
 )
 
 func Execute() {
-	err, v := config.Load()
+	ctx := context.Background()
+	err, serverProps := config.Load(ctx)
 	if err != nil {
 		log.Panicln(err)
 	}
-	server.Bootstrap(v)
+	server.Bootstrap(serverProps)
 }

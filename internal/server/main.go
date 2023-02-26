@@ -18,6 +18,42 @@ type ServerProps struct {
 	Context    context.Context
 }
 
+type ServerBuilder struct {
+	app        *fiber.App
+	viper      *viper.Viper
+	repository *repository.Repository
+	context    context.Context
+}
+
+func New() *ServerBuilder {
+	app := fiber.New()
+	app.Use(logger.New())
+	return &ServerBuilder{app: app}
+}
+
+func (b *ServerBuilder) AddConfig(v *viper.Viper) *ServerBuilder {
+	b.viper = v
+	return b
+}
+
+func (b *ServerBuilder) AddContext(ctx context.Context) *ServerBuilder {
+	b.context = ctx
+	return b
+}
+
+func (b *ServerBuilder) AddRepository(r *repository.Repository) *ServerBuilder {
+	b.repository = r
+	return b
+}
+
+func (b *ServerBuilder) Start() error {
+	port := b.viper.GetString("server.port")
+	address := b.viper.GetString("server.address")
+	listener := fmt.Sprintf("%s:%s", address, port)
+	return b.app.Listen(listener)
+
+}
+
 func Bootstrap(s *ServerProps) {
 	app := fiber.New()
 	app.Use(logger.New())

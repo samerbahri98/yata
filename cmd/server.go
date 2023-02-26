@@ -14,5 +14,8 @@ func Execute() {
 	if err != nil {
 		log.Panicln(err)
 	}
+
+	app := server.New()
+	app.AddContext(ctx)
 	server.Bootstrap(serverProps)
 }

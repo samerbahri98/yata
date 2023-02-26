@@ -1,4 +1,4 @@
-package api
+package apiV1
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -8,40 +8,32 @@ import (
 
 var userRepository *repository.UserRepository = nil
 
-func userApi(v1Props *V1Props) func(fiber.Router) {
+func (a *APIBuilder) user(r fiber.Router) {
 	if userRepository == nil {
 		userRepository = &repository.UserRepository{
-			Repository: v1Props.Repository,
+			Repository: a.repository,
 		}
 	}
-	return func(r fiber.Router) {
-		r.Post("/", createUser(v1Props))
-		r.Get("/:id", getUser(v1Props))
-	}
+	r.Post("/", a.createUser)
+	r.Get("/:id", a.getUser)
 }
 
-func createUser(v1Props *V1Props) func(c *fiber.Ctx) error {
+func (a *APIBuilder) createUser(c *fiber.Ctx) error {
 	userProps := new(entities.CreateUserParams)
-
-	return func(c *fiber.Ctx) error {
-		if err := c.BodyParser(userProps); err != nil {
-			return err
-		}
-		user, err := userRepository.CreateUser(v1Props.Context, userProps.Username, userProps.Email)
-		if err != nil {
-			return err
-		}
-		return c.JSON(user)
+	if err := c.BodyParser(userProps); err != nil {
+		return err
 	}
+	user, err := userRepository.CreateUser(a.context, userProps.Username, userProps.Email)
+	if err != nil {
+		return err
+	}
+	return c.JSON(user)
 }
-
-func getUser(v1Props *V1Props) func(c *fiber.Ctx) error {
-	return func(c *fiber.Ctx) error {
-		id := c.AllParams()["id"]
-		user, err := userRepository.GetUser(v1Props.Context, id)
-		if err != nil {
-			return err
-		}
-		return c.JSON(user)
+func (a *APIBuilder) getUser(c *fiber.Ctx) error {
+	id := c.AllParams()["id"]
+	user, err := userRepository.GetUser(a.context, id)
+	if err != nil {
+		return err
 	}
+	return c.JSON(user)
 }

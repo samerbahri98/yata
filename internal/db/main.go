@@ -11,15 +11,15 @@ import (
 
 var ddl string
 
-func Load(ctx context.Context, v *viper.Viper) (error, entities.DBTX) {
+func Load(ctx context.Context, v *viper.Viper) (entities.DBTX, error) {
 	conn := v.GetString("database.conn")
 	driver := v.GetString("database.driver")
 	db, err := sql.Open(driver, conn)
 	if err != nil {
-		return err, nil
+		return nil, err
 	}
 	if _, err := db.ExecContext(ctx, ddl); err != nil {
-		return err, nil
+		return nil, err
 	}
-	return nil, entities.DBTX(db)
+	return entities.DBTX(db), nil
 }

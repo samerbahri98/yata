@@ -1,4 +1,4 @@
-package api
+package apiV1
 
 import (
 	"context"
@@ -7,17 +7,38 @@ import (
 	"github.com/samerbahri98/yata/internal/repository"
 )
 
-type V1Props struct {
-	Repository *repository.Repository
-	Context    context.Context
+type APIBuilder struct {
+	api        *fiber.App
+	repository *repository.Repository
+	context    context.Context
 }
 
-func New(v1Props *V1Props) *fiber.App {
+func New() *APIBuilder {
 	api := fiber.New()
 	api.Use(func(c *fiber.Ctx) error {
 		c.Accepts("application/json")
 		return c.Next()
 	})
-	api.Route("/user", userApi(v1Props))
-	return api
+	return &APIBuilder{
+		api: api,
+	}
+}
+
+func (a *APIBuilder) AddRepository(r *repository.Repository) *APIBuilder {
+	a.repository = r
+	return a
+}
+
+func (a *APIBuilder) AddContext(ctx context.Context) *APIBuilder {
+	a.context = ctx
+	return a
+}
+
+func (a *APIBuilder) Build() *APIBuilder {
+	a.api.Route("/user", a.user)
+	return a
+}
+
+func (a *APIBuilder) GetAPI() *fiber.App {
+	return a.api
 }

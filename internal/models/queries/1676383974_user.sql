@@ -7,7 +7,7 @@ SELECT id,
 FROM users
 WHERE id = ?
 LIMIT 1;
--- name: GetByUsername :one
+-- name: FindUserByUsername :one
 SELECT id,
   username,
   email,
@@ -16,7 +16,7 @@ SELECT id,
 FROM users
 WHERE username = ?
 LIMIT 1;
--- name: GetByEmail :one
+-- name: FindUserByEmail :one
 SELECT id,
   username,
   email,

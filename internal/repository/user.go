@@ -15,6 +15,14 @@ func (r *UserRepository) GetUser(ctx context.Context, id string) (entities.User,
 	return r.queries.GetUser(ctx, id)
 }
 
+func (r *UserRepository) FindUserByEmail(ctx context.Context, email string) (entities.User, error) {
+	return r.queries.FindUserByEmail(ctx, email)
+}
+
+func (r *UserRepository) FindUserByUsername(ctx context.Context, username string) (entities.User, error) {
+	return r.queries.FindUserByUsername(ctx, username)
+}
+
 func (r *UserRepository) CreateUser(ctx context.Context, username string, email string) (entities.User, error) {
 	var p entities.CreateUserParams
 
@@ -23,4 +31,8 @@ func (r *UserRepository) CreateUser(ctx context.Context, username string, email 
 	p.Email = email
 	return r.queries.CreateUser(ctx, p)
 
+}
+
+func (r *UserRepository) DeleteUser(ctx context.Context, id string) error {
+	return r.queries.DeleteUser(ctx, id)
 }

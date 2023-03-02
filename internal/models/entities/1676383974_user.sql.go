@@ -44,7 +44,7 @@ func (q *Queries) DeleteUser(ctx context.Context, id string) error {
 	return err
 }
 
-const getByEmail = `-- name: GetByEmail :one
+const findUserByEmail = `-- name: FindUserByEmail :one
 SELECT id,
   username,
   email,
@@ -55,8 +55,8 @@ WHERE email = ?
 LIMIT 1
 `
 
-func (q *Queries) GetByEmail(ctx context.Context, email string) (User, error) {
-	row := q.db.QueryRowContext(ctx, getByEmail, email)
+func (q *Queries) FindUserByEmail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, findUserByEmail, email)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -68,7 +68,7 @@ func (q *Queries) GetByEmail(ctx context.Context, email string) (User, error) {
 	return i, err
 }
 
-const getByUsername = `-- name: GetByUsername :one
+const findUserByUsername = `-- name: FindUserByUsername :one
 SELECT id,
   username,
   email,
@@ -79,8 +79,8 @@ WHERE username = ?
 LIMIT 1
 `
 
-func (q *Queries) GetByUsername(ctx context.Context, username string) (User, error) {
-	row := q.db.QueryRowContext(ctx, getByUsername, username)
+func (q *Queries) FindUserByUsername(ctx context.Context, username string) (User, error) {
+	row := q.db.QueryRowContext(ctx, findUserByUsername, username)
 	var i User
 	err := row.Scan(
 		&i.ID,

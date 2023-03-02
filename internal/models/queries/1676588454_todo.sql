@@ -17,7 +17,7 @@ SELECT id,
   user_id
 FROM todos
 ORDER BY ?;
--- name: FindByUser :many
+-- name: FindTodoByUserId :many
 SELECT id,
   title,
   description,

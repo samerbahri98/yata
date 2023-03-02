@@ -52,7 +52,7 @@ func (q *Queries) DeleteTodo(ctx context.Context, id string) error {
 	return err
 }
 
-const findByUser = `-- name: FindByUser :many
+const findTodoByUserId = `-- name: FindTodoByUserId :many
 SELECT id,
   title,
   description,
@@ -64,8 +64,8 @@ WHERE user_id = ?
 ORDER BY ?
 `
 
-func (q *Queries) FindByUser(ctx context.Context, userID string) ([]Todo, error) {
-	rows, err := q.db.QueryContext(ctx, findByUser, userID)
+func (q *Queries) FindTodoByUserId(ctx context.Context, userID string) ([]Todo, error) {
+	rows, err := q.db.QueryContext(ctx, findTodoByUserId, userID)
 	if err != nil {
 		return nil, err
 	}

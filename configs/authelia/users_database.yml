@@ -1,0 +1,11 @@
+---
+users:
+  admin:
+    disabled: false
+    displayname: "Authelia User"
+    # Password is Changeme123
+    password: $2a$12$8pPIw2dq3xGV.WtoeO8b1O6.B5ka39b9elusjJkNCPhXAdxCCueym  # yamllint disable-line rule:line-length
+    email: admin@docker.localhost
+    groups:
+      - admins
+      - dev

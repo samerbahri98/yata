@@ -1,0 +1,29 @@
+---
+api:
+  dashboard: true
+  debug: true
+
+providers:
+  docker:
+    defaultRule: Host(`{{ .Name }}.docker.localhost`)
+    exposedByDefault: false
+  file:
+    filename: /etc/traefik/dynamic.yaml
+
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: :443
+    http:
+      tls:
+        certResolver: local
+        domains:
+          - main: docker.localhost
+            sans:
+              - '*.docker.localhost'

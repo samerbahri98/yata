@@ -1,0 +1,7 @@
+---
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/tls/cert.pem
+        keyFile: /etc/tls/cert.key

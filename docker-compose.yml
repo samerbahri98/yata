@@ -1,0 +1,36 @@
+---
+services:
+  authelia:
+    image: authelia/authelia:4.38
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.authelia.rule: "Host(`auth.docker.localhost`)"
+      traefik.http.services.authelia.loadbalancer.server.port: "9091"
+    volumes:
+      - ${PWD}/tmp/tls:/etc/tls:ro
+      - ${PWD}/tmp/authelia/log:/var/log/authelia:rw
+      - ${PWD}/tmp/authelia/secrets:/storage/secrets:ro
+      - ${PWD}/tmp/db:/storage/db:rw
+      - ${PWD}/configs/authelia:/config:ro
+
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/storage/secrets/AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/storage/secrets/AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE
+      # - AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE=/storage/secrets/AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE
+  traefik: 
+    image: "traefik:v3.1"
+    ports: 
+      - 80:80
+      - 443:443
+    restart: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.traefik.service: api@internal
+      traefik.http.routers.traefik.rule: "Host(`traefik.docker.localhost`)"
+      traefik.http.services.traefik.loadbalancer.server.port: "8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${PWD}/configs/traefik:/etc/traefik:ro
+      - ${PWD}/tmp/tls:/etc/tls:ro
